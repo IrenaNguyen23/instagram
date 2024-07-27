@@ -2,6 +2,8 @@ import React from 'react'
 import StoryCircle from '../../Component/Story/StoryCircle'
 import HomeRight from '../../Component/HomeRight/HomeRight'
 import PostCard from '../../Component/Post/PostCard'
+import CreatePostModal from '../../Component/Post/CreatePostModal'
+import { useDisclosure } from '@chakra-ui/react'
 
 const HomePage = () => {
   return (
@@ -20,7 +22,6 @@ const HomePage = () => {
           <HomeRight/>
         </div>
       </div>
-      
     </div>
   )
 }
