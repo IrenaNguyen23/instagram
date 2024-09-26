@@ -1,10 +1,13 @@
 import { Box, Button, FormControl, FormErrorMessage, Input } from '@chakra-ui/react'
 import { Field, Form, Formik } from 'formik'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from "yup"
 import { auth, provider } from './Firebase';
 import { signInWithPopup } from 'firebase/auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { signinAction } from '../../Redux/Auth/Action'
+import { getUserProfileAction } from '../../Redux/User/Action'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email address").required("Required"),
@@ -13,9 +16,26 @@ const validationSchema = Yup.object().shape({
 const Signin = () => {
     const initialValues = { email: "", password: "" };
     const navigation = useNavigate()
-    const handleSubmit = (values) => {
-        console.log("values:", values)
+    const dispatch = useDispatch();
+    const { user } = useSelector(store => store);
+    const jwt = localStorage.getItem("token");
+
+    const handleSubmit = (values, actions) => {
+        dispatch(signinAction(values))
+        actions.isSubmitting(false);
     }
+
+    useEffect(() => {
+        if (jwt)
+            dispatch(getUserProfileAction(jwt))
+    }, [jwt,dispatch])
+
+    useEffect(() => {
+        if (user.reqUser?.username) {
+            navigation(`/${user.reqUser?.username}`)
+        }
+    }, [user, navigation])  // Theo dõi sự thay đổi của user và navigation
+
     const handleNavigation = () => navigation("/signup")
     const handleLogin = async () => {
         try {
