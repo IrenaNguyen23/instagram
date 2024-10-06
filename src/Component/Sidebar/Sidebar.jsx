@@ -5,16 +5,18 @@ import { useNavigate } from 'react-router-dom';
 import CreatePostModal from '../Post/CreatePostModal';
 import { useDisclosure } from '@chakra-ui/react';
 import SearchComponent from '../SearchComponents/SearchComponent';
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [activeTab, setActiveTab] = useState("");
     const navigate = useNavigate()
     const [isSearchVisible, setIsSearchVisible] = useState(false)
+    const {user} = useSelector(store=>store)
     const handleTabClick = (title) => {
         setActiveTab(title)
         if (title === "Profile") {
-            navigate("/username")
+            navigate(`/${user.reqUser?.username}`)
         } else if (title === "Home") {
             navigate("/")
         } else if (title === "Create") {

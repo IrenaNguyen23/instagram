@@ -3,8 +3,6 @@ import { Field, Form, Formik } from 'formik'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from "yup"
-import { auth, provider } from './Firebase';
-import { signInWithPopup } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { signinAction } from '../../Redux/Auth/Action'
 import { getUserProfileAction } from '../../Redux/User/Action'
@@ -28,22 +26,15 @@ const Signin = () => {
     useEffect(() => {
         if (jwt)
             dispatch(getUserProfileAction(jwt))
-    }, [jwt,dispatch])
+    }, [jwt])
 
     useEffect(() => {
         if (user.reqUser?.username) {
             navigation(`/${user.reqUser?.username}`)
         }
-    }, [user, navigation])  // Theo dõi sự thay đổi của user và navigation
+    }, [jwt, user.reqUser])  // Theo dõi sự thay đổi của user và navigation
 
     const handleNavigation = () => navigation("/signup")
-    const handleLogin = async () => {
-        try {
-            await signInWithPopup(auth, provider);
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
     return (
         <div>
@@ -102,7 +93,6 @@ const Signin = () => {
 
                                     <div className="flex justify-center">
                                         <button
-                                            onClick={handleLogin}
                                             className="flex items-center justify-center w-full bg-white py-2 px-4 text-blue-500 hover:shadow-lg transition duration-200"
                                         >
                                             <svg

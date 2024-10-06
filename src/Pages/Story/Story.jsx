@@ -1,27 +1,32 @@
-import React from 'react'
-import StoryViewer from '../../Component/StoryComponents/StoryViewer'
+import React, { useEffect } from 'react';
+import StoryViewer from '../../Component/StoryComponents/StoryViewer';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { findStoryByUserId } from '../../Redux/Story/Action';
 
 const Story = () => {
-    const story =
-        [
-            {
-                image: "https://cdn.pixabay.com/photo/2024/07/13/07/40/cars-8891625_640.jpg"
-            },
-            {
-                image: "https://cdn.pixabay.com/photo/2024/07/12/08/05/venice-8889871_640.jpg"
-            },
-            {
-                image: "https://cdn.pixabay.com/photo/2017/07/31/17/12/water-2559064_640.jpg"
-            },
-            {
-                image: "https://cdn.pixabay.com/photo/2024/06/15/09/04/door-8831267_640.jpg"
-            }
-        ]
+    const { userId } = useParams();
+    const jwt = localStorage.getItem("token");
+    const dispatch = useDispatch();
+    const { story } = useSelector(store => store);
+
+
+    useEffect(() => {
+        const data = {
+            jwt, userId
+        };
+        dispatch(findStoryByUserId(data));
+    }, [userId, dispatch]);
+
     return (
         <div>
-            <StoryViewer stories={story} />
+            {story.stories?.length > 0 ? (
+                <StoryViewer stories={story.stories} />
+            ) : (
+                <p>No stories available</p> // Hiển thị thông báo nếu không có story
+            )}
         </div>
-    )
-}
+    );
+};
 
-export default Story
+export default Story;

@@ -9,7 +9,9 @@ export const signinAction = (data) => async (dispatch) => {
                 Authorization: "Basic " + btoa(data.email + ":" + data.password),
             }
         })
+        console.log(res)    
         const token = res.headers.get("Authorization");
+        console.log("token: ", token)
         localStorage.setItem("token", token);
         dispatch({ type: SIGN_IN, payload: token });
         console.log("singin:", token);
