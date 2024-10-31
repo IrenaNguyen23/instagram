@@ -1,0 +1,24 @@
+.mobilewallpaper {
+    background-image: url("https://static.cdninstagram.com/images/instagram/xig/homepage/phones/home-phones.png?__makehaste_cache_breaker=HOgRclNOosk");
+    animation: changeBg 8s infinite;
+    background-size: cover; /* Ensure the background covers the element */
+    right: 2.75rem
+}
+
+@keyframes changeBg {
+    0% {
+        background-image: url("../../../public/screenshot1.png");
+    }
+    25% {
+        background-image: url("../../../public/screenshot2.png");
+    }
+    50% {
+        background-image: url("../../../public/screenshot3.png");
+    }
+    75% {
+        background-image: url("../../../public/screenshot4.png");
+    }
+    100% {
+        background-image: url("../../../public/screenshot3.png");
+    }
+}
